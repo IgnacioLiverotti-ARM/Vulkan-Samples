@@ -141,7 +141,9 @@ set(ORDER_LIST
     "hpp_texture_compression_comparison"
     
     #General Samples
-    "mobile_nerf")
+    "mobile_nerf"
+    "hello_ray_tracing"
+)
 
 # Orders the sample ids by the order list above
 set(ORDERED_LIST)
