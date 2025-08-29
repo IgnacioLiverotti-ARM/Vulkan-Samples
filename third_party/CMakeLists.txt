@@ -36,6 +36,21 @@ if(NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_compile_definitions(glm INTERFACE GLM_FORCE_CXX14)
 endif()
 
+# tinyobjloader
+
+# Avoid building tinyobjloader extras
+set(TINYOBJLOADER_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(TINYOBJLOADER_BUILD_TESTS       OFF CACHE BOOL "" FORCE)
+set(TINYOBJLOADER_ENABLE_INSTALL    OFF CACHE BOOL "" FORCE)
+
+# Add the submodule
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/tinyobjloader/CMakeLists.txt")
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyobjloader")
+else()
+    message(FATAL_ERROR "tinyobjloader submodule not found at third_party/tinyobjloader")
+endif()
+
+
 # tinygltf
 add_library(tinygltf INTERFACE)
 set(TINYGLTF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinygltf)
