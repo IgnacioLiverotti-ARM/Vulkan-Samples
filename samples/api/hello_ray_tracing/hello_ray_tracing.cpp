@@ -929,7 +929,7 @@ void HelloRayTracing::render_triangle(uint32_t swapchain_index)
 	);
 	// Set clear color values.
 	VkClearValue clear_value{
-	    .color = {{0.01f, 0.01f, 0.033f, 1.0f}}};
+	    .color = {{0.1f, 0.65f, 0.1f, 1.0f}}};
 
 	// Set up the rendering attachment info
 	VkRenderingAttachmentInfo color_attachment{
@@ -1337,8 +1337,10 @@ import vulkan_hpp;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/hash.hpp>
 
+/* // OLD TUTORIAL CODE. No longer needed?
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+*/
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>

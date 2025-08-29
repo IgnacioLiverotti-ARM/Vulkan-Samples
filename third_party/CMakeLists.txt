@@ -37,19 +37,22 @@ if(NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 endif()
 
 # tinyobjloader
-
-# Avoid building tinyobjloader extras
 set(TINYOBJLOADER_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 set(TINYOBJLOADER_BUILD_TESTS       OFF CACHE BOOL "" FORCE)
 set(TINYOBJLOADER_ENABLE_INSTALL    OFF CACHE BOOL "" FORCE)
 
-# Add the submodule
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/tinyobjloader/CMakeLists.txt")
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyobjloader")
+    # --- tidy bits:
+    # Namespace-style alias (purely for nicer linking if you want it)
+    if(TARGET tinyobjloader AND NOT TARGET tinyobjloader::tinyobjloader)
+        add_library(tinyobjloader::tinyobjloader ALIAS tinyobjloader)
+    endif()
+    # Put in the IDE's "ThirdParty" folder
+    set_target_properties(tinyobjloader PROPERTIES FOLDER "ThirdParty")
 else()
     message(FATAL_ERROR "tinyobjloader submodule not found at third_party/tinyobjloader")
 endif()
-
 
 # tinygltf
 add_library(tinygltf INTERFACE)

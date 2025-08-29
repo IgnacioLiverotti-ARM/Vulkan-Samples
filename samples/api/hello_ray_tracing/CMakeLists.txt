@@ -36,32 +36,4 @@ add_sample(
         "hello_ray_tracing/slang/triangle.vert.slang"
         "hello_ray_tracing/slang/triangle.frag.slang")
 
-# ---- tinyobjloader hookup for hello_ray_tracing ---------------------------
-
-# If tinyobjloader wasn't added globally, add it locally (once).
-# Guard prevents duplicate-add when building via the main root CMake.
-if(NOT TARGET tinyobjloader)
-    # Prefer PROJECT_SOURCE_DIR (root where 'project(...)' is defined).
-    # Fallback to CMAKE_SOURCE_DIR if your toolchain defines that instead.
-    set(_TINYOBJ_SRC_DIR "${PROJECT_SOURCE_DIR}/third_party/tinyobjloader")
-    if(NOT EXISTS "${_TINYOBJ_SRC_DIR}/CMakeLists.txt")
-        set(_TINYOBJ_SRC_DIR "${CMAKE_SOURCE_DIR}/third_party/tinyobjloader")
-    endif()
-
-    if(EXISTS "${_TINYOBJ_SRC_DIR}/CMakeLists.txt")
-        # Use a dedicated binary dir to avoid target collisions
-        add_subdirectory("${_TINYOBJ_SRC_DIR}" "${CMAKE_BINARY_DIR}/_dep_tinyobjloader")
-    else()
-        message(FATAL_ERROR
-                "tinyobjloader CMakeLists.txt not found. Expected at:\n  "
-                "${PROJECT_SOURCE_DIR}/third_party/tinyobjloader\nor\n  "
-                "${CMAKE_SOURCE_DIR}/third_party/tinyobjloader")
-    endif()
-endif()
-
-# Link and expose include dirs to keep IDEs happy.
 target_link_libraries(hello_ray_tracing PRIVATE tinyobjloader)
-target_include_directories(hello_ray_tracing PRIVATE
-        $<TARGET_PROPERTY:tinyobjloader,INTERFACE_INCLUDE_DIRECTORIES>
-)
-# ---------------------------------------------------------------------------
