@@ -22,7 +22,7 @@ import vulkan_hpp;
 
 #include <vulkan/vk_platform.h>
 
-#define GLFW_INCLUDE_VULKAN // REQUIRED only for GLFW CreateWindowSurface.
+//#define GLFW_INCLUDE_VULKAN // REQUIRED only for GLFW CreateWindowSurface.
 //#include <GLFW/glfw3.h>
 
 #define GLM_FORCE_RADIANS
@@ -34,8 +34,8 @@ import vulkan_hpp;
 
 /* // OLD TUTORIAL CODE. No longer needed?
 #define STB_IMAGE_IMPLEMENTATION
+ */
 #include <stb_image.h>
-*/
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
@@ -114,8 +114,6 @@ struct PushConstant {
 #endif // LAB_TASK_LEVEL >= LAB_TASK_REFLECTIONS
 };
 
-#if false
-
 class HelloTriangleApplication {
 public:
     void run() {
@@ -126,7 +124,7 @@ public:
     }
 
 private:
-    GLFWwindow* window = nullptr;
+    //GLFWwindow* window = nullptr;
 
     vk::raii::Context  context;
     vk::raii::Instance instance = nullptr;
@@ -236,6 +234,7 @@ private:
     };
 
     void initWindow() {
+        /* IGNACIO
         glfwInit();
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -243,12 +242,14 @@ private:
         window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
         glfwSetWindowUserPointer(window, this);
         glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
+         */
     }
 
+    /* IGNACIO
     static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
         auto app = static_cast<HelloTriangleApplication*>(glfwGetWindowUserPointer(window));
         app->framebufferResized = true;
-    }
+    }*/
 
     void initVulkan() {
         createInstance();
@@ -277,10 +278,12 @@ private:
     }
 
     void mainLoop() {
+        /* IGNACIO
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
             drawFrame();
-        }
+        } */
+        drawFrame();
 
         device.waitIdle();
     }
@@ -291,18 +294,20 @@ private:
     }
 
     void cleanup() const {
+        /* IGNACIO
         glfwDestroyWindow(window);
 
-        glfwTerminate();
+        glfwTerminate();*/
     }
 
     void recreateSwapChain() {
+        /* IGNACIO
         int width = 0, height = 0;
         glfwGetFramebufferSize(window, &width, &height);
         while (width == 0 || height == 0) {
             glfwGetFramebufferSize(window, &width, &height);
             glfwWaitEvents();
-        }
+        }*/
 
         device.waitIdle();
 
@@ -375,11 +380,13 @@ private:
     }
 
     void createSurface() {
+        /* IGNACIO
         VkSurfaceKHR       _surface;
         if (glfwCreateWindowSurface(*instance, window, nullptr, &_surface) != 0) {
             throw std::runtime_error("failed to create window surface!");
         }
         surface = vk::raii::SurfaceKHR(instance, _surface);
+         */
     }
 
     void pickPhysicalDevice() {
@@ -1925,7 +1932,7 @@ private:
             return capabilities.currentExtent;
         }
         int width, height;
-        glfwGetFramebufferSize(window, &width, &height);
+        //glfwGetFramebufferSize(window, &width, &height); // IGNACIO
 
         return {
                 std::clamp<uint32_t>(width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width),
@@ -1934,6 +1941,7 @@ private:
     }
 
     [[nodiscard]] std::vector<const char*> getRequiredExtensions() const {
+        /* IGNACIO
         uint32_t glfwExtensionCount = 0;
         auto glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
@@ -1942,7 +1950,9 @@ private:
             extensions.push_back(vk::EXTDebugUtilsExtensionName );
         }
 
-        return extensions;
+        return extensions;*/
+        std::vector<const char*> a;
+        return a;
     }
 
     static VKAPI_ATTR vk::Bool32 VKAPI_CALL debugCallback(vk::DebugUtilsMessageSeverityFlagBitsEXT severity, vk::DebugUtilsMessageTypeFlagsEXT type, const vk::DebugUtilsMessengerCallbackDataEXT* pCallbackData, void*) {
@@ -1965,7 +1975,7 @@ private:
         return buffer;
     }
 };
-
+/* IGNACIO
 int main() {
     try {
         HelloTriangleApplication app;
@@ -1977,5 +1987,4 @@ int main() {
 
     return EXIT_SUCCESS;
 }
-
-#endif
+*/
