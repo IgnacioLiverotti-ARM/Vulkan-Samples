@@ -36,4 +36,8 @@ add_sample(
         "hello_ray_tracing/slang/triangle.vert.slang"
         "hello_ray_tracing/slang/triangle.frag.slang")
 
+target_sources(hello_ray_tracing PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/ray_Tracing_tutorial.cpp
+)
+
 target_link_libraries(hello_ray_tracing PRIVATE tinyobjloader)
